@@ -146,3 +146,15 @@ def get_box_from(document, target_words, lang):
         row = df.iloc[index]
         boxes.append(((row['left']-10, row['top']-10), (row['left'] + row['width']+10, row['top']+row['height']+10)))
     return boxes
+
+
+def draw_word_boxes(document, target_words, lang, pdf_path):
+    """Draw word boxes and save result"""
+    boxes = get_box_from(document.copy(), target_words, lang)
+    img_box = document.copy()
+    for box in boxes:
+        img_box = cv2.rectangle(img_box, *box, (0, 255, 255), 5)
+    img_box = Image.fromarray(img_box)
+    pdf_path = pdf_path.rsplit('.', 1)
+    pdf_path = pdf_path[0] + '_box.' + pdf_path[1]
+    img_box.save(pdf_path)

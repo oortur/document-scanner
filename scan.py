@@ -3,36 +3,29 @@ Application to scan document from photo and save in pdf format.
 Optionally you may search target word in text and draw bounding box for it.
 """
 
-import cv2
+import os
 from time import time
-from PIL import Image
 from argparse import ArgumentParser
 from detectors import detect_document
 
 
 APP_NAME = "document-scanner"
-DEFAULT_PDF_PATH = "./out/document.pdf"
+OUTPUT_FOLDER = "./out"
+DEFAULT_PDF_NAME = "document.pdf"
 DEFAULT_IMG_PATH = "./images/sample_0.jpg"
 
 
 def callback(arguments):
     """Callback function to process CLI commands"""
     start = time()
+    output_path = os.path.join(OUTPUT_FOLDER, arguments.pdf)
     try:
-        warped, binarized = detect_document(arguments.image, arguments.pdf, arguments.binarize, white=True)
+        warped, binarized = detect_document(arguments.image, output_path, arguments.binarize, white=True)
         print("Document is found! Check your pdf file.")
         if arguments.target_words is not None:
             # import only if words are requested
-            from detectors import get_box_from
-
-            boxes = get_box_from(binarized.copy(), arguments.target_words, arguments.lang)
-            img_box = binarized.copy()
-            for box in boxes:
-                img_box = cv2.rectangle(img_box, *box, (0, 255, 255), 5)
-            img_box = Image.fromarray(img_box)
-            pdf_path = arguments.pdf.rsplit('.', 1)
-            pdf_path = pdf_path[0] + '_box.' + pdf_path[1]
-            img_box.save(pdf_path)
+            from detectors import draw_word_boxes
+            draw_word_boxes(binarized, arguments.target_words, arguments.lang, output_path)
             print("Target words are found! Check your pdf file.")
     except Exception as e:
         print(e)
@@ -49,7 +42,7 @@ def setup_parser(parser):
     )
     parser.add_argument(
         "-p", "--pdf",
-        default=DEFAULT_PDF_PATH,
+        default=DEFAULT_PDF_NAME,
         help="path to store document in pdf format",
     )
     parser.add_argument(
