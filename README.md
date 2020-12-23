@@ -51,6 +51,10 @@ optional arguments:
 
 You may find examples of input images and pdf files in `/images` and `/out` folders respectively.
 
-Input:
+Input and otuput with recognized target words:
 
-<img src="https://github.com/balan/document-scanner/blob/main/images/sample_0.jpg?raw=true" height=500 hspace=30> <img src="https://github.com/balan/document-scanner/blob/main/images/sample_1.jpg?raw=true" height=500>
+<img src="https://github.com/balan/document-scanner/blob/main/images/sample_0.jpg?raw=true" height=300 hspace=30> <img src="https://github.com/balan/document-scanner/blob/main/out/out_box.jpg?raw=true" height=300>
+
+Observe marked words connected to <b>sign</b> and <b>signature</b>:
+
+<img src="https://github.com/balan/document-scanner/blob/main/out/out_box_close.jpg?raw=true" height=200>
