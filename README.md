@@ -32,7 +32,7 @@ sudo apt-get install tesseract-ocr-[lang]
 
 ## Usage
 
-Application interface:
+Simply run `python scan.py` with proper arguments to get result. Observe the application interface:
 ```bash
 usage: document-scanner [-h] [-i IMAGE] [-p PDF] [--binarize] [-w [TARGET_WORDS [TARGET_WORDS ...]]] [-l LANG]
 
